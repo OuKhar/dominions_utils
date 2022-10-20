@@ -17,14 +17,14 @@ def turn_reminder(dom_website):
     dom_data = pd.read_html(str(turn_tbl))[0]
 
     # count players and how many have played their turn
-    count_players = dom_data[0].count()
+    count_players = dom_data[0].count() - 1 # header
     count_turn_played = dom_data[dom_data[1] == 'Turn played'][0].count()
 
     # form and process string for nations not plaed their turn
     not_played = dom_data.loc[dom_data[1] != 'Turn played', [0]]
     not_played_string_original = not_played.to_string(index=False,header=False)
-    not_played_string = not_played_string_original.split("\n",1)[1]
-    
+    not_played_string = not_played_string_original.split("\n",1)[1] # remove table name/header
+
     # check whether there is only one player not played its turn and print relevant information 
     if count_players - count_turn_played == 1:
         print("Sunrise depending on:", not_played_string.strip())
